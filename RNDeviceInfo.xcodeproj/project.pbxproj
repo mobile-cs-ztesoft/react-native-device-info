@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		76E65CA41D4CA143009B7AF1 /* DeviceUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E65CA31D4CA143009B7AF1 /* DeviceUID.m */; };
+		8249ADE21DC0902800A4D442 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 8249ADDF1DC0902800A4D442 /* SSKeychain.m */; };
+		8249ADE31DC0902800A4D442 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8249ADE11DC0902800A4D442 /* SSKeychainQuery.m */; };
 		DA5891DC1BA9A9FC002B4DB2 /* RNDeviceInfo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5891DB1BA9A9FC002B4DB2 /* RNDeviceInfo.h */; };
 		DA5891DE1BA9A9FC002B4DB2 /* RNDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5891DD1BA9A9FC002B4DB2 /* RNDeviceInfo.m */; };
 /* End PBXBuildFile section */
@@ -28,6 +30,10 @@
 /* Begin PBXFileReference section */
 		76E65CA21D4CA143009B7AF1 /* DeviceUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceUID.h; sourceTree = "<group>"; };
 		76E65CA31D4CA143009B7AF1 /* DeviceUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUID.m; sourceTree = "<group>"; };
+		8249ADDE1DC0902800A4D442 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		8249ADDF1DC0902800A4D442 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		8249ADE01DC0902800A4D442 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		8249ADE11DC0902800A4D442 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		DA5891D81BA9A9FC002B4DB2 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNDeviceInfo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5891DB1BA9A9FC002B4DB2 /* RNDeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNDeviceInfo.h; sourceTree = "<group>"; };
 		DA5891DD1BA9A9FC002B4DB2 /* RNDeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNDeviceInfo.m; sourceTree = "<group>"; };
@@ -44,6 +50,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8249ADDD1DC0902800A4D442 /* UUID */ = {
+			isa = PBXGroup;
+			children = (
+				8249ADDE1DC0902800A4D442 /* SSKeychain.h */,
+				8249ADDF1DC0902800A4D442 /* SSKeychain.m */,
+				8249ADE01DC0902800A4D442 /* SSKeychainQuery.h */,
+				8249ADE11DC0902800A4D442 /* SSKeychainQuery.m */,
+			);
+			path = UUID;
+			sourceTree = "<group>";
+		};
 		DA5891CF1BA9A9FC002B4DB2 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +80,7 @@
 		DA5891DA1BA9A9FC002B4DB2 /* RNDeviceInfo */ = {
 			isa = PBXGroup;
 			children = (
+				8249ADDD1DC0902800A4D442 /* UUID */,
 				76E65CA21D4CA143009B7AF1 /* DeviceUID.h */,
 				76E65CA31D4CA143009B7AF1 /* DeviceUID.m */,
 				DA5891DB1BA9A9FC002B4DB2 /* RNDeviceInfo.h */,
@@ -127,8 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8249ADE31DC0902800A4D442 /* SSKeychainQuery.m in Sources */,
 				76E65CA41D4CA143009B7AF1 /* DeviceUID.m in Sources */,
 				DA5891DE1BA9A9FC002B4DB2 /* RNDeviceInfo.m in Sources */,
+				8249ADE21DC0902800A4D442 /* SSKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,8 +237,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../React/**",
 					"$(inherited)",
-					"$(BUILT_PRODUCTS_DIR)/usr/local/include",
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../../node_modules/react-native/React/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -231,8 +254,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../React/**",
 					"$(inherited)",
-					"$(BUILT_PRODUCTS_DIR)/usr/local/include",
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../../node_modules/react-native/React/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "-ObjC";

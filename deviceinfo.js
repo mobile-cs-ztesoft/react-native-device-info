@@ -5,6 +5,12 @@
 var RNDeviceInfo = require('react-native').NativeModules.RNDeviceInfo;
 
 module.exports = {
+  getUUID:function () {
+    return RNDeviceInfo.UUID;
+  },
+  getIMEI: function () {
+    return RNDeviceInfo.IMEI;
+  },
   getUniqueID: function () {
     return RNDeviceInfo.uniqueId;
   },
@@ -58,8 +64,5 @@ module.exports = {
   },
   isEmulator: function() {
     return RNDeviceInfo.isEmulator;
-  },
-  isTablet: function() {
-    return RNDeviceInfo.isTablet;
   },
 };

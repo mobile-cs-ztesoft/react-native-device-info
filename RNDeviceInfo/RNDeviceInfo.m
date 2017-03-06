@@ -8,14 +8,15 @@
 
 #import "RNDeviceInfo.h"
 #import "DeviceUID.h"
-
+#import "SSKeychainQuery.h"
+#import "SSKeychain.h"
 @interface RNDeviceInfo()
 
 @end
 
 @implementation RNDeviceInfo
 {
-
+    NSString *_props;
 }
 
 RCT_EXPORT_MODULE()
@@ -28,19 +29,19 @@ RCT_EXPORT_MODULE()
 - (NSString*) deviceId
 {
     struct utsname systemInfo;
-
+    
     uname(&systemInfo);
-
+    
     return [NSString stringWithCString:systemInfo.machine
-                                    encoding:NSUTF8StringEncoding];
+                              encoding:NSUTF8StringEncoding];
 }
 
 - (NSString*) deviceName
 {
     static NSDictionary* deviceNamesByCode = nil;
-
+    
     if (!deviceNamesByCode) {
-
+        
         deviceNamesByCode = @{@"i386"      :@"Simulator",
                               @"x86_64"    :@"Simulator",
                               @"iPod1,1"   :@"iPod Touch",      // (Original)
@@ -108,12 +109,12 @@ RCT_EXPORT_MODULE()
                               @"AppleTV5,3":@"Apple TV",        // Apple TV (4th Generation)
                               };
     }
-
+    
     NSString* deviceName = [deviceNamesByCode objectForKey:self.deviceId];
-
+    
     if (!deviceName) {
         // Not found on database. At least guess main device type from string contents:
-
+        
         if ([self.deviceId rangeOfString:@"iPod"].location != NSNotFound) {
             deviceName = @"iPod Touch";
         }
@@ -124,7 +125,7 @@ RCT_EXPORT_MODULE()
             deviceName = @"iPhone";
         }
     }
-
+    
     return deviceName;
 }
 
@@ -142,33 +143,50 @@ RCT_EXPORT_MODULE()
 
 - (NSString*) deviceCountry
 {
-  NSString *country = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-  return country;
+    NSString *country = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    return country;
 }
 
 - (NSString*) timezone
 {
-  NSTimeZone *currentTimeZone = [NSTimeZone localTimeZone];
-  return currentTimeZone.name;
+    NSTimeZone *currentTimeZone = [NSTimeZone localTimeZone];
+    return currentTimeZone.name;
 }
 
 - (bool) isEmulator
 {
-  return [self.deviceName isEqual: @"Simulator"];
+    return [self.deviceName isEqual: @"Simulator"];
 }
 
-- (bool) isTablet
+- (NSString *)getUUID
 {
-  return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+    NSString *string = [SSKeychain passwordForService:@"com.foa.rn" account:@"foa"];
+
+    if (!string) {
+        NSString *UUID = [[UIDevice currentDevice].identifierForVendor UUIDString];
+        if([SSKeychain setPassword:UUID forService:@"com.foa.rn" account:@"foa"])
+        {
+            NSLog(@"UUID not exist before, a new one generated success.");
+            string = [SSKeychain passwordForService:@"com.foa.rn" account:@"foa"];
+            
+        }else{
+            NSLog(@"UUID not exist before, but generate  a new one failed.");
+            string = @"";
+        }
+    }
+    NSLog(@"ios uuid in native code : %@",string);
+    return string;
 }
+
 
 - (NSDictionary *)constantsToExport
 {
     UIDevice *currentDevice = [UIDevice currentDevice];
-
+    
     NSString *uniqueId = [DeviceUID uid];
-
+    
     return @{
+             @"UUID":[self getUUID],
              @"systemName": currentDevice.systemName,
              @"systemVersion": currentDevice.systemVersion,
              @"model": self.deviceName,
@@ -185,7 +203,6 @@ RCT_EXPORT_MODULE()
              @"userAgent": self.userAgent,
              @"timezone": self.timezone,
              @"isEmulator": @(self.isEmulator),
-             @"isTablet": @(self.isTablet),
              };
 }
 
